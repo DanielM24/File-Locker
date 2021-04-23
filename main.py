@@ -82,7 +82,7 @@ def cryptoTool(choice):
             text_box = tk.Text(root, height=2, width=40, padx=15, pady=15)
             text_box.insert(1.0, "Fișierul dumnneavoastră a fost criptat  cu succes!")
             text_box.tag_configure("center", justify="center")
-            text_box.tag_add("center", 5.0, "end")
+            text_box.tag_add("center", 1.0, "end")
             text_box.grid(column=1, row=3)
         except Exception:
             text_box = tk.Text(root, height=2, width=40, padx=15, pady=15)
