@@ -2,6 +2,8 @@
 # Fernet reprezintă o implementare a criptării simetrice
 from cryptography.fernet import Fernet
 import tkinter as tk
+from tkinter import filedialog
+from PIL import Image, ImageTk
 
 class Encryptor():
 
@@ -62,44 +64,83 @@ class Encryptor():
             original_file.write(content)
         original_file.close()
 
-def user_interface():
-    def cryptoTool():
-        file_path = entry_widget.get()
-        choice = variable.get()
-        encryptor = Encryptor()
-        if choice == 'encrypt':
-            encryptor.encrypt_file(file_path)
-            label_widget['text'] = "Fișierul dumnneavoastră a fost criptat cu succes!"
-        else:
-            encryptor.decrypt_file(file_path)
-            label_widget['text'] = "Fișierul dumnneavoastră a fost decriptat cu succes!"
 
-    # Realizăm interfața pentru program
-    root = tk.Tk()
-    root.title('File Locker Encrypt/Decrypt')
-    root.minsize(width = 700, height = 400)
+file = ' '
 
-    app_ui = tk.Canvas(root, width = 700, height = 400)
-    app_ui.pack()
+root = tk.Tk()
+root.title('File Locker Encrypt/Decrypt')
+root.geometry('+%d+%d'%(350,100))
 
-    entry_widget = tk.Entry(root)
-    app_ui.create_window(350, 200, window = entry_widget)
+canvas = tk.Canvas(root, width=700, height=450, bg="white")
+canvas.grid(columnspan=3, rowspan=5)
 
-    label_widget = tk.Label()
-    app_ui.create_window(350, 200, window = label_widget)
+def cryptoTool(choice):
+    encryptor = Encryptor()
+    if choice == 'encrypt':
+        try:
+            encryptor.encrypt_file(file)
+            text_box = tk.Text(root, height=2, width=40, padx=15, pady=15)
+            text_box.insert(1.0, "Fișierul dumnneavoastră a fost criptat  cu succes!")
+            text_box.tag_configure("center", justify="center")
+            text_box.tag_add("center", 5.0, "end")
+            text_box.grid(column=1, row=3)
+        except Exception:
+            text_box = tk.Text(root, height=2, width=40, padx=15, pady=15)
+            text_box.insert(1.0, "Eroare! Fișierul dumnneavoastră nu a    putut fi criptat.")
+            text_box.tag_configure("center", justify="center")
+            text_box.tag_add("center", 1.0, "end")
+            text_box.grid(column=1, row=3)
 
-    button_widget = tk.Button(text='Submit', command=cryptoTool)
-    app_ui.create_window(350, 320, window=button_widget)
+    else:
+        try:
+            encryptor.decrypt_file(file)
+            text_box = tk.Text(root, height=2, width=40, padx=15, pady=15)
+            text_box.insert(1.0, "Fișierul dumnneavoastră a fost decriptat cu succes!")
+            text_box.tag_configure("center", justify="center")
+            text_box.tag_add("center", 1.0, "end")
+            text_box.grid(column=1, row=3)
+        except Exception:
+            text_box = tk.Text(root, height=2, width=40, padx=15, pady=15)
+            text_box.insert(1.0, "Eroare! Fișierul dumnneavoastră nu a    putut fi decriptat.")
+            text_box.tag_configure("center", justify="center")
+            text_box.tag_add("center", 1.0, "end")
+            text_box.grid(column=1, row=3)
 
-    variable = tk.StringVar()
-    variable.set('encrypt')
+def select_file():
+    browse_text.set("Loading...")
+    global file
+    file = filedialog.askopenfilename(parent = root, filetypes=[("All files","*.*")])
+    browse_text.set("Browse")
 
-    #Adăugăm butoanele pentru opțiunea de criptare și de decriptare a fișierului
-    button_encrypt = tk.Radiobutton(root, text='Encrypt File', variable = variable, value = 'encrypt')
-    app_ui.create_window(350, 40, window = button_encrypt)
-    button_decrypt = tk.Radiobutton(root, text='Decrypt File', variable = variable, value = 'decrypt')
-    app_ui.create_window(350, 80, window = button_decrypt)
+# Logo
+logo = Image.open('logo.png')
+logo = ImageTk.PhotoImage(logo)
+logo_label = tk.Label(image = logo, bg="white")
+logo_label.image = logo
+logo_label.grid(column = 1, row = 0,sticky='N')
 
-    root.mainloop()
+# Instrucțiuni
+instructions = tk.Label(root, text="Select a file from your computer to Encrypt/Decrypt", font=("Times New Roman", 12), bg="white")
+instructions.grid(columnspan = 3, column = 0, row = 0,sticky='S',pady=15)
 
-user_interface()
+# Browse
+browse_text = tk.StringVar()
+browse_btn = tk.Button(root, textvariable = browse_text, command = lambda:select_file(), font=("Times New Roman", 13), bg = "#0c334c", fg = "white", height = 2, width = 10 )
+browse_text.set("Browse")
+browse_btn.grid(column = 1, row = 1,sticky='N',padx=50)
+
+# Salvăm opțiunea utilizatorului: Criptează fișierul / Decriptează fișierul
+option = tk.StringVar()
+
+# Adăugăm butoanele pentru opțiunea de criptare și de decriptare a fișierului
+encrypt_text = tk.StringVar()
+button_encrypt = tk.Button(root, textvariable = encrypt_text, command = lambda:cryptoTool('encrypt'), font=("Times New Roman", 13), bg = "#0c334c", fg = "white", height = 2, width = 15 )
+encrypt_text.set("Encrypt File")
+button_encrypt.grid(column = 0, row = 2)
+
+decrypt_text = tk.StringVar()
+button_decrypt = tk.Button(root, textvariable = decrypt_text, command = lambda:cryptoTool('decrypt'), font=("Times New Roman", 13), bg = "#0c334c", fg = "white", height = 2, width = 15 )
+decrypt_text.set("Decrypt File")
+button_decrypt.grid(column = 2, row = 2)
+
+root.mainloop()
