@@ -5,6 +5,7 @@ import tkinter as tk
 from tkinter import filedialog
 from PIL import Image, ImageTk
 
+
 class Encryptor():
 
     # Funcția de generare a cheii (aceasta este de 44 de caractere)
@@ -69,10 +70,11 @@ file = ' '
 
 root = tk.Tk()
 root.title('File Locker Encrypt/Decrypt')
-root.geometry('+%d+%d'%(350,100))
+root.geometry('+%d+%d' % (350, 100))
 
 canvas = tk.Canvas(root, width=700, height=450, bg="white")
 canvas.grid(columnspan=3, rowspan=5)
+
 
 def cryptoTool(choice):
     encryptor = Encryptor()
@@ -106,41 +108,47 @@ def cryptoTool(choice):
             text_box.tag_add("center", 1.0, "end")
             text_box.grid(column=1, row=3)
 
+
 def select_file():
     browse_text.set("Loading...")
     global file
-    file = filedialog.askopenfilename(parent = root, filetypes=[("All files","*.*")])
+    file = filedialog.askopenfilename(parent=root, filetypes=[("All files", "*.*")])
     browse_text.set("Browse")
+
 
 # Logo
 logo = Image.open('logo.png')
 logo = ImageTk.PhotoImage(logo)
-logo_label = tk.Label(image = logo, bg="white")
+logo_label = tk.Label(image=logo, bg="white")
 logo_label.image = logo
-logo_label.grid(column = 1, row = 0,sticky='N')
+logo_label.grid(column=1, row=0, sticky='N')
 
 # Instrucțiuni
-instructions = tk.Label(root, text="Select a file from your computer to Encrypt/Decrypt", font=("Times New Roman", 12), bg="white")
-instructions.grid(columnspan = 3, column = 0, row = 0,sticky='S',pady=15)
+instructions = tk.Label(root, text="Select a file from your computer to Encrypt/Decrypt", font=("Times New Roman", 12),
+                        bg="white")
+instructions.grid(columnspan=3, column=0, row=0, sticky='S', pady=15)
 
 # Browse
 browse_text = tk.StringVar()
-browse_btn = tk.Button(root, textvariable = browse_text, command = lambda:select_file(), font=("Times New Roman", 13), bg = "#0c334c", fg = "white", height = 2, width = 10 )
+browse_btn = tk.Button(root, textvariable=browse_text, command=lambda: select_file(), font=("Times New Roman", 13),
+                       bg="#0c334c", fg="white", height=2, width=10)
 browse_text.set("Browse")
-browse_btn.grid(column = 1, row = 1,sticky='N',padx=50)
+browse_btn.grid(column=1, row=1, sticky='N', padx=50)
 
 # Salvăm opțiunea utilizatorului: Criptează fișierul / Decriptează fișierul
 option = tk.StringVar()
 
 # Adăugăm butoanele pentru opțiunea de criptare și de decriptare a fișierului
 encrypt_text = tk.StringVar()
-button_encrypt = tk.Button(root, textvariable = encrypt_text, command = lambda:cryptoTool('encrypt'), font=("Times New Roman", 13), bg = "#0c334c", fg = "white", height = 2, width = 15 )
+button_encrypt = tk.Button(root, textvariable=encrypt_text, command=lambda: cryptoTool('encrypt'),
+                           font=("Times New Roman", 13), bg="#0c334c", fg="white", height=2, width=15)
 encrypt_text.set("Encrypt File")
-button_encrypt.grid(column = 0, row = 2)
+button_encrypt.grid(column=0, row=2)
 
 decrypt_text = tk.StringVar()
-button_decrypt = tk.Button(root, textvariable = decrypt_text, command = lambda:cryptoTool('decrypt'), font=("Times New Roman", 13), bg = "#0c334c", fg = "white", height = 2, width = 15 )
+button_decrypt = tk.Button(root, textvariable=decrypt_text, command=lambda: cryptoTool('decrypt'),
+                           font=("Times New Roman", 13), bg="#0c334c", fg="white", height=2, width=15)
 decrypt_text.set("Decrypt File")
-button_decrypt.grid(column = 2, row = 2)
+button_decrypt.grid(column=2, row=2)
 
 root.mainloop()
