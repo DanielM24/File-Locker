@@ -4,19 +4,19 @@ File-Locker is a tool for Encryption and Decryption made in Python. The project 
 
 #### How it looks:
 
-<img src="C:\Users\danie\Desktop\Github\demo.png" alt="k" style="zoom: 67%;" />
+<img src="https://github.com/DanielM24/File-Locker/blob/main/demo.png" alt="k" style="zoom: 67%;" />
 
  
 
 [^]: This is how the app looks
 
-<img src="C:\Users\danie\Desktop\Github\encrypt_message.png" style="zoom:67%;" />
+<img src="https://github.com/DanielM24/File-Locker/blob/main/encrypt_message.png" style="zoom:67%;" />
 
  
 
 [^]: When you successfully encrypted a file you will receive this message
 
-<img src="C:\Users\danie\Desktop\Github\decrypt_message.png" style="zoom:67%;" />
+<img src="https://github.com/DanielM24/File-Locker/blob/main/decrypt_message.png" style="zoom:67%;" />
 
 [^]: When you successfully decrypted a file you will receive this message
 
